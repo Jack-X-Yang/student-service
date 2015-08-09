@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv=Content-Type content="text/html; charset=utf-8">
+    <title>体质测试</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: "Microsoft YaHei";
+            background-color: #386184;
+        }
+        
+        .blur {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            z-index: -1;
+            filter: url(blur.svg#blur);
+            /* FireFox, Chrome, Opera */
+            
+            -webkit-filter: blur(10px);
+            /* Chrome, Opera */
+            
+            -moz-filter: blur(10px);
+            -ms-filter: blur(10px);
+            filter: blur(10px);
+            filter: progid: DXImageTransform.Microsoft.Blur(PixelRadius=10, MakeShadow=false);
+            /* IE6~IE9 */
+        }
+        
+        th,
+        td {
+            text-align: center;
+        }
+        
+        img {
+            width: 100%;
+            height: 200%;
+        }
+        
+        .btn-ring {
+            height: 200px;
+            width: 200px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.3);
+            color: rgba(72, 67, 67, 0.85);
+            border: solid 10px #e0e0e0;
+            font-size: 50px;
+            margin: 70px 0 50px -100px;
+            position: absolute;
+            left: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <!--nav-->
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <button class="btn btn-default pull-left" style="margin-top:10px;margin-left:10px;" href="#">刷新</button>
+            <div class="navbar-brand" style="width:120px;margin-left:-60px;position: absolute;left:50%;" href="#">体质测试</div>
+        </div>
+
+        <div class="collapse navbar-collapse" id="example-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">iOS</a>
+                </li>
+                <li><a href="#">SVN</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+               Java <b class="caret"></b>
+            </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">jmeter</a>
+                        </li>
+                        <li><a href="#">EJB</a>
+                        </li>
+                        <li><a href="#">Jasper Report</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="#">分离的链接</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="#">另一个分离的链接</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--container-->
+    <div id="container"></div>
+    <!--bacgground image-->
+    <img alt="" src="images/dc0bcc4d8c93f36e5abbe18c468913fa2adddbad11a74-JAsiye_fw658.jpg" class="blur">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <!--    <script src="js/jquery.mobile-1.4.0.min.js"></script>-->
+
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/handlebars-v3.0.3.js"></script>
+    <script type="text/javascript" src="js/jquery.mockjax.min.js"></script>
+    <!--template-->
+    <script id="physical-test-template" type="text/x-handlebars-template">
+
+        <div class="row col-xs-10 col-xs-offset-1 panel-group" id="#collapseOne">
+            <h3 style="color: #fff;">毕业总分：{{毕业总分}}</h3>
+            <h3 style="color: #fff;">毕业等级：{{毕业等级}}</h3> 
+            {{#each results}}
+            <!--{{#if detail}}-->
+            <div class="panel panel-default" style="margin-top:50px">
+                <div class="panel-heading">
+                    <h4 class="panel-title text-center">
+                        {{a-link-id}}{{grade}}</a>
+                        </h4>
+                </div>
+                {{div-id}}
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-6">项目名称</th>
+                                <th>结果</th>
+                                <th>分数</th>
+                                <th>等级</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each detail}}
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>{{result}}</td>
+                                <td>{{score}}</td>
+                                <td>{{grade}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    <div class="col-xs-offset-8">学年总分:<span class="text-danger col-xs-offset-2">{{学年总分}}</span>
+                    </div>
+                    <div class="col-xs-offset-8">等级评定:<span class="text-danger col-xs-offset-2">{{等级评定}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--{{/if}}-->
+        {{/each}}
+        </div>
+    </script>
+
+    <!--进行数据处理、html构造-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //模拟的json对象
+            var data = {
+                "status": "1",
+                "results": [{},
+                    {
+                        "grade": "大二",
+                        "detail": [
+                            {
+                                "name": "身高",
+                                "result": "172",
+                                "score": "",
+                                "grade": ""
+                        },
+                            {
+                                "name": "体重",
+                                "result": "65",
+                                "score": "",
+                                "grade": ""
+                        },
+                            {
+                                "name": "体重指数（BMI）",
+                                "result": "22",
+                                "score": "100",
+                                "grade": "正常"
+                        },
+                            {
+                                "name": "肺活量（毫升）",
+                                "result": "5000",
+                                "score": "95",
+                                "grade": ""
+                        },
+                            {
+                                "name": "50米跑（秒）",
+                                "result": "7.4",
+                                "score": "76",
+                                "grade": ""
+                        },
+                            {
+                                "name": "坐位体前屈(厘米）",
+                                "result": "10.5",
+                                "score": "68",
+                                "grade": ""
+                        },
+                            {
+                                "name": "立定跳远（米）",
+                                "result": "245",
+                                "score": "78",
+                                "grade": ""
+                        },
+                            {
+                                "name": "引体向上（男）/ 1分钟仰卧起坐(女)（次）",
+                                "result": "14",
+                                "score": "76",
+                                "grade": ""
+                        },
+                            {
+                                "name": "1000米跑（男）/ 800米跑(女)（分·秒）",
+                                "result": "3.47",
+                                "score": "78",
+                                "grade": ""
+                            }
+                        ],
+                        "学年总分": "85.25",
+                        "等级评定": " 良好 "
+                    },
+                    {
+                        "grade": "大三",
+                        "detail": [
+                            {
+                                "name": "身高",
+                                "result": "172",
+                                "score": "",
+                                "grade": ""
+                        },
+                            {
+                                "name": "体重",
+                                "result": "65",
+                                "score": "",
+                                "grade": ""
+                        },
+                            {
+                                "name": "体重指数（BMI）",
+                                "result": "22",
+                                "score": "100",
+                                "grade": "正常"
+                        },
+                            {
+                                "name": "肺活量（毫升）",
+                                "result": "5000",
+                                "score": "95",
+                                "grade": ""
+                        },
+                            {
+                                "name": "50米跑（秒）",
+                                "result": "7.4",
+                                "score": "76",
+                                "grade": ""
+                        },
+                            {
+                                "name": "坐位体前屈(厘米）",
+                                "result": "10.5",
+                                "score": "68",
+                                "grade": ""
+                        },
+                            {
+                                "name": "立定跳远（米）",
+                                "result": "245",
+                                "score": "78",
+                                "grade": ""
+                        },
+                            {
+                                "name": "引体向上（男）/ 1分钟仰卧起坐(女)（次）",
+                                "result": "14",
+                                "score": "76",
+                                "grade": ""
+                        },
+                            {
+                                "name": "1000米跑（男）/ 800米跑(女)（分·秒）",
+                                "result": "3.47",
+                                "score": "78",
+                                "grade": ""
+                            }
+                        ],
+                        "学年总分": "85.25",
+                        "等级评定": " 良好 "
+                    },
+                    {},
+                    {}],
+                "毕业总分": "39.258",
+                "毕业等级": " 不及格 "
+            };
+
+            /*mockjax*/
+            $.mockjax({
+                url: '/url',
+                responseText: data
+            });
+
+            var handlebarsID = 0;
+
+            Handlebars.registerHelper('a-link-id', function () {
+                handlebarsID++;
+                return new Handlebars.SafeString('<a data-toggle="collapse" data-parent="#accordion" href="#' + handlebarsID + '">');
+            });
+
+            Handlebars.registerHelper('div-id', function () {
+                return new Handlebars.SafeString('<div id="' + handlebarsID + '" class="panel-collapse collapse in">');
+            });
+
+            function getStatus() {
+                return $.ajax({
+                    type: "POST",
+                    url: '/url',
+                    data: {},
+                    dataType: 'json',
+                });
+            }
+
+            function updateStatus(data) {
+                var myTemplate = Handlebars.compile($("#physical-test-template").html());
+                $('#container').html(myTemplate(data));
+            }
+
+            $.when(getStatus()).done(updateStatus);
+        });
+    </script>
+</body>
+
+</html>
